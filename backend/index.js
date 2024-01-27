@@ -1,10 +1,10 @@
 import express from "express";
 import bodyParser from "body-parser";
+
 const app = express();
+const messages = [];
 
 app.use(bodyParser.json());
-
-const messages = [];
 app.get('/v1/message', (req, res) => {
     res.json(messages).end();
 });
