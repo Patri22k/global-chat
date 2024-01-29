@@ -28,7 +28,7 @@ function App() {
         },
         body: JSON.stringify([value]),
       }).then(res => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           mutate(messageEndpoint);
         } else {
           // TODO: Err
@@ -72,7 +72,6 @@ function App() {
 
 function Messages({ data }) {
   const [deleting, setDeleting] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(-1); 
   const delectionHandler = (index) => {
     return (e) => {
       e.preventDefault();
@@ -95,36 +94,29 @@ function Messages({ data }) {
       .finally(() => setDeleting(false));
     }
   }
-  const handleInnerChatClick = (index) => {
-    return (e) => {
-      setSelectedIndex(index);
-    }
-  }
     if (data.length > 0)
     {
       return (
       <>
         {data.map((val, key) => (
           <div className='inner-chat-wrapper' key={key}>
-            <div className='inner-chat' onClick={handleInnerChatClick(key)} id={`inner-chat-${key}`}>
+            <div className='inner-chat' id={`inner-chat-${key}`}>
               <div style={{
                 width: 'calc(100% - 20px)'
               }}>
                 <p>{val}</p>
               </div>
               <div className='inner-chat-tools'>
-                {selectedIndex == key ? (
-                  <button onClick={delectionHandler(key)} style={{
-                    marginTop: 'auto',
-                    border: 'none',
-                    padding: 'none',
-                    background: 'none'
-                  }}>
-                    <FontAwesomeIcon icon={faTimesCircle} style={{
-                      height: '20px',
-                    }} />
-                  </button>
-                ) : null}
+                <button onClick={delectionHandler(key)} style={{
+                  marginTop: 'auto',
+                  border: 'none',
+                  padding: 'none',
+                  background: 'none'
+                }}>
+                  <FontAwesomeIcon icon={faTimesCircle} style={{
+                    height: '20px',
+                  }} />
+                </button>
               </div>
             </div>
           </div>

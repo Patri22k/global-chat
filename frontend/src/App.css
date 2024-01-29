@@ -53,10 +53,23 @@ body {
   flex-direction: row;
   border-top: 1px solid #F0F0F0;
   background-color: #F0F0F0;
-  padding: 0.5em 2em;
+  padding: 0.5em 0em;
   margin: 1em;
-  border-radius: 5em 5em 0 5em;
+  border-radius: 2em 2em 0 2em;
   max-width: 60%;
+}
+
+.inner-chat button {
+  transform: translate(-25%, 20%);
+}
+
+.inner-chat button {
+  visibility: hidden;
+}
+
+.inner-chat:hover button {
+  visibility: visible !important;
+  color: rgb(162, 162, 162);
 }
 
 .chat p {
