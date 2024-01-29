@@ -2,6 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 import useSWR, { mutate } from 'swr';
 import { apiUrl } from './util/api';
 
@@ -73,37 +74,47 @@ function Messages({ data }) {
   const delectionHandler = (index) => {
     return (e) => {
       e.preventDefault();
-      // TODO: Deletion code
+      const url = apiUrl('/v1/message');
+      fetch(url, {
+        method: 'DELETE',
+        body: JSON.stringify([index]),
+      })
+      .then(res => res.json())
+      .then(res => {
+        
+      });
     }
   }
-
-  return (
-    data.length > 0 ? (
-      <>{data.map((val, key) => (
-        <div className='inner-chat-wrapper' key={key}>
-          <div className='inner-chat' style={{
-            display: 'flex',
-            flexDirection: 'row'
-          }}>
-            <div style={{
-              width: 'calc(100% - 20px)'
-            }}>
-              <p>{val}</p>
-            </div>
-            <div className='inner-chat-tools' style={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: '20px'
-            }}>
-              <button onClick={delectionHandler(key)} style={{
-                marginTop: 'auto'
-              }}></button>
+    if (data.length > 0)
+    {
+      return (
+      <>
+        {data.map((val, key) => (
+          <div className='inner-chat-wrapper' key={key}>
+            <div className='inner-chat'>
+              <div style={{
+                width: 'calc(100% - 20px)'
+              }}>
+                <p>{val}</p>
+              </div>
+              <div className='inner-chat-tools'>
+                <button onClick={delectionHandler(key)} style={{
+                  marginTop: 'auto',
+                  border: 'none',
+                  padding: 'none',
+                  background: 'none'
+                }}>
+                  <FontAwesomeIcon icon={faTimesCircle} style={{
+                    height: '20px',
+                  }}/>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      ))}</>
-    ) : <p>No messages.</p>
-  )
+        ))}
+      </>
+    )
+  }
 }
 
 export default App;

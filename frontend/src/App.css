@@ -49,6 +49,8 @@ body {
 }
 
 .inner-chat {
+  display: flex;
+  flex-direction: row;
   border-top: 1px solid #F0F0F0;
   background-color: #F0F0F0;
   padding: 0.5em 2em;
@@ -60,4 +62,10 @@ body {
 .chat p {
   word-wrap: break-word;
   padding: 0 1em;
+}
+
+.ininner-chat-tools {
+  display: flex;
+  flex-direction: column;
+  width: 20px;
 }
