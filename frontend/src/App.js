@@ -71,18 +71,33 @@ function App() {
 }
 
 function Messages({ data }) {
+  const [deleting, setDeleting] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1); 
   const delectionHandler = (index) => {
     return (e) => {
       e.preventDefault();
-      const url = apiUrl('/v1/message');
+      if (deleting) {
+        return;
+      }
+      setDeleting(true);
+      const url = apiUrl('/v1/delete');
       fetch(url, {
-        method: 'DELETE',
-        body: JSON.stringify([index]),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(Array.of(index)),
       })
       .then(res => res.json())
       .then(res => {
-        
-      });
+        mutate(messageEndpoint, res.data);
+      })
+      .finally(() => setDeleting(false));
+    }
+  }
+  const handleInnerChatClick = (index) => {
+    return (e) => {
+      setSelectedIndex(index);
     }
   }
     if (data.length > 0)
@@ -91,23 +106,25 @@ function Messages({ data }) {
       <>
         {data.map((val, key) => (
           <div className='inner-chat-wrapper' key={key}>
-            <div className='inner-chat'>
+            <div className='inner-chat' onClick={handleInnerChatClick(key)} id={`inner-chat-${key}`}>
               <div style={{
                 width: 'calc(100% - 20px)'
               }}>
                 <p>{val}</p>
               </div>
               <div className='inner-chat-tools'>
-                <button onClick={delectionHandler(key)} style={{
-                  marginTop: 'auto',
-                  border: 'none',
-                  padding: 'none',
-                  background: 'none'
-                }}>
-                  <FontAwesomeIcon icon={faTimesCircle} style={{
-                    height: '20px',
-                  }}/>
-                </button>
+                {selectedIndex == key ? (
+                  <button onClick={delectionHandler(key)} style={{
+                    marginTop: 'auto',
+                    border: 'none',
+                    padding: 'none',
+                    background: 'none'
+                  }}>
+                    <FontAwesomeIcon icon={faTimesCircle} style={{
+                      height: '20px',
+                    }} />
+                  </button>
+                ) : null}
               </div>
             </div>
           </div>
