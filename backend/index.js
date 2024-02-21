@@ -20,7 +20,7 @@ app.post('/v1/message', (req, res) => {
     for (const message of req.body) {
         messages.push(message)
     }
-    res.json({ "status": 200, "message": "Zpravy ulozeny." }).end();
+    res.json({ "status": 200, "message": "Spravy ulozene." }).end();
 });
 app.post('/v1/delete', (req, res) => {
     const body = req.body;
